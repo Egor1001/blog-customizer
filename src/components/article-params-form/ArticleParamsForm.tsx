@@ -33,28 +33,28 @@ export const ArticleParamsForm: ArticleParamsForm = ({
 		useState<ArticleStateType>(defaultArticleState);
 
 	// видимость этой формы
-	const [isOpened, setIsOpened] = useState<boolean>(false);
+	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
 	// ссылка на элемент контейнера для формы
 	const containerRef = useRef<HTMLDivElement | null>(null);
 
 	useModalClose({
-		isOpened,
-		setClosed: () => setIsOpened(false),
+		isOpened: isMenuOpen, // Обновлено здесь
+		setClosed: () => setIsMenuOpen(false), // И здесь
 		containerRef,
 	});
 
 	const submitForm = (evt: React.FormEvent<HTMLFormElement>) => {
 		evt.preventDefault();
 		setArticleStyleState(inputArticleStyleState);
-		setIsOpened(false);
+		setIsMenuOpen(false); // Обновлено здесь
 	};
 
 	const resetForm = (evt: React.FormEvent) => {
 		evt.preventDefault();
 		setInputArticleStyleState(defaultArticleState);
 		setArticleStyleState(defaultArticleState);
-		setIsOpened(false);
+		setIsMenuOpen(false); // Обновлено здесь
 	};
 
 	const onOptionSelected =
@@ -69,11 +69,11 @@ export const ArticleParamsForm: ArticleParamsForm = ({
 	return (
 		<div ref={containerRef} className='form-container'>
 			<ArrowButton
-				willCloseOnClick={isOpened}
-				onClick={() => setIsOpened(!isOpened)}
+				willCloseOnClick={isMenuOpen} // Обновлено здесь
+				onClick={() => setIsMenuOpen(!isMenuOpen)} 
 			/>
 			<aside
-				className={clsx(styles.container, isOpened && styles.container_open)}>
+				className={clsx(styles.container, isMenuOpen && styles.container_open)}> 
 				<form className={styles.form} onSubmit={submitForm} onReset={resetForm}>
 					<Text size={31} weight={800} uppercase>
 						Задайте параметры
